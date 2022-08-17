@@ -1,6 +1,7 @@
 from selenium import webdriver
 
-class Application:
+
+class Application:  # Класс, в котором содержатся все вспомогательные методы
 
     def __init__(self):
         self.wd = webdriver.Firefox()

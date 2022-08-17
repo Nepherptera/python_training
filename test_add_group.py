@@ -6,13 +6,13 @@ from application import Application
 
 @pytest.fixture
 def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.destroy)
+    fixture = Application()  # инициализация, создание фикстуры
+    request.addfinalizer(fixture.destroy)  # Указание на то, как эта фикстура должна быть разрушена
     return fixture
 
 
-def test_add_group(app):
-    app.login(username="admin", password='secret')
+def test_add_group(app):  # Тестовый метод, принимающий в качестве параметра фикстуру
+    app.login(username="admin", password='secret')  # Вспомогательные методы из отдельного класса Application
     app.create_group(Group(name="rte", header="ret", footer="hdgfgh"))
     app.logout()
 

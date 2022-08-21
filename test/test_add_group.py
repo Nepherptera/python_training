@@ -13,11 +13,11 @@ def app(request):
 
 def test_add_group(app):  # Тестовый метод, принимающий в качестве параметра фикстуру
     app.session.login(username="admin", password='secret')  # Вспомогательные методы из отдельного класса Application
-    app.create_group(Group(name="rte", header="ret", footer="hdgfgh"))
+    app.group.create(Group(name="rte", header="ret", footer="hdgfgh"))
     app.session.logout()
 
 
 def test_empty_add_group(app):
     app.session.login(username="admin", password='secret')
-    app.create_group(Group(name="", header="", footer=""))
+    app.group.create(Group(name="", header="", footer=""))
     app.session.logout()

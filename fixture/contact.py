@@ -10,11 +10,8 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("home page").click()
 
-    def create(self, contact):
+    def fill_contact_form(self, contact):
         wd = self.app.wd
-        # init contact creation
-        wd.find_element_by_link_text("add new").click()
-        # fill contact form
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.firstname)
         wd.find_element_by_name("middlename").clear()
@@ -59,6 +56,63 @@ class ContactHelper:
         wd.find_element_by_name("phone2").send_keys(contact.home)
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
+
+    def create(self, contact):
+        wd = self.app.wd
+        # init contact creation
+        wd.find_element_by_link_text("add new").click()
+        self.fill_contact_form(contact)
         # submit contact creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.return_to_home_page()
+
+    def edit_first_contact(self, contact):
+        wd = self.app.wd
+        # open home page
+        wd.find_element_by_link_text("home").click()
+        # init edit contact
+        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        self.fill_contact_form(contact)
+        # submit contact creation
+        wd.find_element_by_name("update").click()
+        self.return_to_home_page()
+
+    def test_edit_contact_from_contact_page(self, contact):
+        wd = self.app.wd
+        # open home page
+        wd.find_element_by_link_text("home").click()
+        # open contact page
+        wd.find_element_by_xpath("//img[@alt='Details']").click()
+        # init edit contact
+        wd.find_element_by_name("modifiy").click()
+        self.fill_contact_form(contact)
+        # submit contact creation
+        wd.find_element_by_name("update").click()
+        self.return_to_home_page()
+
+    def delete_first_contact(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # submit deletion
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Delete 1 addresses[\s\S]$")
+        wd.switch_to.alert.accept()
+
+    def delete_contact_from_contact_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
+        # open contact page
+        wd.find_element_by_xpath("//img[@alt='Details']").click()
+        # init edit contact
+        wd.find_element_by_name("modifiy").click()
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.find_element_by_link_text("home").click()
+
+    def assertRegexpMatches(self, param, param1):
+        pass
+
+    def close_alert_and_get_its_text(self):
+        pass
+

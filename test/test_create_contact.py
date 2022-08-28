@@ -14,3 +14,18 @@ def test_create_new_contact(app):
                                aday="21", amonth="July", ayear="2008", address2="address", home="home",
                                notes="notes"))
     app.session.logout()
+
+
+def test_create_empty_contact(app):
+    app.session.login(username="admin", password="secret")
+    app.contact.create(Contact(firstname="", middlename="", lastname="",
+                               nickname="", title="", company="", address="",
+                               home_phone_number="", mobile_number="",
+                               work_phone_number="", fax_number="",
+                               email="",
+                               email2="", email3="",
+                               homepage="", bday="-", bmonth="-",
+                               byear="",
+                               aday="-", amonth="-", ayear="", address2="", home="",
+                               notes=""))
+    app.session.logout()

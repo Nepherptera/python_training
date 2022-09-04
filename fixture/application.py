@@ -10,7 +10,7 @@ class Application:  # Класс, в котором содержатся все 
 
     def __init__(self):
         self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(5)
+        self.wd.implicitly_wait(1)
         self.session = SessionHelper(self)  # ссылка на фикстуру, которую передаем в помощника session
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
@@ -24,7 +24,8 @@ class Application:  # Класс, в котором содержатся все 
 
     def open_home_page(self):
         wd = self.wd
-        wd.get("http://localhost/addressbook/")
+        if not (wd.current_url == "http://localhost/addressbook/"):
+            wd.get("http://localhost/addressbook/")
 
     def destroy(self):
         self.wd.quit()

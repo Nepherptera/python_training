@@ -10,7 +10,8 @@ class ContactHelper:
 
     def return_to_home_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home page").click()
+        if not (wd.current_url == "http://localhost/addressbook/"):
+            wd.find_element_by_link_text("home page").click()
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
@@ -61,7 +62,7 @@ class ContactHelper:
     def edit_first_contact(self, contact):
         wd = self.app.wd
         # open home page
-        wd.find_element_by_link_text("home").click()
+        self.app.open_home_page()
         # init edit contact
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         self.fill_contact_form(contact)
@@ -72,9 +73,8 @@ class ContactHelper:
     def test_edit_contact_from_contact_page(self, contact):
         wd = self.app.wd
         # open home page
-        wd.find_element_by_link_text("home").click()
-        # open contact page
-        wd.find_element_by_xpath("//img[@alt='Details']").click()
+        self.app.open_home_page()
+        self.open_contact_page()
         # init edit contact
         wd.find_element_by_name("modifiy").click()
         self.fill_contact_form(contact)
@@ -84,7 +84,7 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        self.app.open_home_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # submit deletion
@@ -94,13 +94,16 @@ class ContactHelper:
 
     def delete_contact_from_contact_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
-        # open contact page
-        wd.find_element_by_xpath("//img[@alt='Details']").click()
+        self.app.open_home_page()
+        self.open_contact_page()
         # init edit contact
         wd.find_element_by_name("modifiy").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.find_element_by_link_text("home").click()
+
+    def open_contact_page(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//img[@alt='Details']").click()
 
     def assertRegexpMatches(self, param, param1):
         pass

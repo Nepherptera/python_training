@@ -10,7 +10,7 @@ class Application:  # Класс, в котором содержатся все 
 
     def __init__(self):
         self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(30)
+        self.wd.implicitly_wait(5)
         self.session = SessionHelper(self)  # ссылка на фикстуру, которую передаем в помощника session
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)

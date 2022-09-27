@@ -4,22 +4,22 @@ from fixture.application import Application
 fixture = None
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def app(request):
     global fixture
-    if fixture is None:  # Если фикстуры нет
-        fixture = Application()  # Инициализируем фикстуру
+    if fixture is None:
+        fixture = Application()
     else:
         if not fixture.is_valid():
             fixture = Application()
-    fixture.session.ensure_login(username="admin", password='secret')  # логин в одной сессии
+    fixture.session.ensure_login(username="admin", password='secret')
     return fixture
 
 
 @pytest.fixture(scope="session", autouse=True)
 def stop(request):
     def fin():
-        fixture.session.ensure_logout()
-        fixture.destroy()
+        app.session.ensure_logout()
+        app.destroy()
     request.addfinalizer(fin)
     return fixture

@@ -167,8 +167,10 @@ class ContactHelper:
                 firstname = cells[2].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 all_phones = cells[5].text
+                all_mails = cells[4].text
                 self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id,
-                                                  all_phones_from_homepage=all_phones))
+                                                  all_phones_from_homepage=all_phones,
+                                                  all_mails_from_homepage=all_mails))
         return list(self.contact_cache)
 
     def get_contact_info_from_edit_page(self, index):
@@ -193,4 +195,5 @@ class ContactHelper:
         mobile = re.search("M: (.*)", text).group(1)
         phone2 = re.search("P: (.*)", text).group(1)
         return Contact(home=home, work=work, mobile=mobile, phone2=phone2)
+
 
